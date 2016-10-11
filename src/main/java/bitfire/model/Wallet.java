@@ -1,9 +1,15 @@
 package bitfire.model;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Set;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 
 @Entity
@@ -21,7 +27,7 @@ public class Wallet implements Serializable{
 	User user;
 
 	@OneToMany(mappedBy="wallet")
-	List<Address> address;
+	Set<Address> address;
 	
 	public String getWalletId() {
 		return walletId;
@@ -39,12 +45,14 @@ public class Wallet implements Serializable{
 		this.user = user;
 	}
 
-	public List<Address> getAddress() {
+	public Set<Address> getAddress() {
 		return address;
 	}
 
-	public void setAddress(List<Address> address) {
+	public void setAddress(Set<Address> address) {
 		this.address = address;
 	}
+
+	
 	
 }
