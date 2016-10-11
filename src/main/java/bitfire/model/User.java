@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -17,7 +18,7 @@ public class User implements Serializable{
 
 	@Id
 	@GeneratedValue
-	@Column(name="user_id", nullable=false)
+	@Column(name="user_id")
 	int userId;
 	
 	@Column(unique=true, nullable=false)
@@ -32,6 +33,9 @@ public class User implements Serializable{
 	@OneToOne
 	Wallet walletId;
 
+	@Column(name="is_active")
+	Boolean isActive;
+	
 	public int getUserId() {
 		return userId;
 	}
@@ -70,6 +74,14 @@ public class User implements Serializable{
 
 	public void setWalletId(Wallet walletId) {
 		this.walletId = walletId;
+	}
+
+	public Boolean getIsActive() {
+		return isActive;
+	}
+
+	public void setIsActive(Boolean isActive) {
+		this.isActive = isActive;
 	}
 	
 }
