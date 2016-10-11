@@ -1,10 +1,13 @@
 package bitfire.model;
 
 import java.io.Serializable;
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -14,7 +17,7 @@ public class Transaction implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
-	@Column(unique=true)
+	@Column(unique=true,name="tx_id")
 	String txId;
 	
 	@Id
@@ -27,11 +30,11 @@ public class Transaction implements Serializable{
 	double bitcoin;
 	
 	@OneToOne
-	@Column(name="sender_address")
+	@JoinColumn(name="sender_address_id")
 	Address sender;
 	
 	@OneToOne
-	@Column(name="receiver_address")
+	@JoinColumn(name="receiver_address_id")
 	Address receiver;
 	
 	@Column(name="notified_sender")
@@ -40,6 +43,8 @@ public class Transaction implements Serializable{
 	@Column(name="notified_receiver")
 	Boolean notifiedReceiver;
 
+	Date date;
+	
 	public String getTxId() {
 		return txId;
 	}

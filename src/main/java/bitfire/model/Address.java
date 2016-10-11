@@ -3,6 +3,7 @@ package bitfire.model;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Id;
 import javax.persistence.Column;
@@ -26,7 +27,9 @@ public class Address implements Serializable{
 	
 	String label;
 	
-	@ManyToOne  // Needs to be mapped in Wallet Class. Many to one does not have 'mappedBy' feature
+	@ManyToOne
+	@JoinColumn(name="wallet_id")
+	// Needs to be mapped in Wallet Class. Many to one does not have 'mappedBy' feature
 	Wallet wallet;
 
 	public String getAddressId() {
