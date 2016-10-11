@@ -29,7 +29,6 @@ public class Address implements Serializable{
 	
 	@ManyToOne
 	@JoinColumn(name="wallet_id")
-	// Needs to be mapped in Wallet Class. Many to one does not have 'mappedBy' feature
 	Wallet wallet;
 
 	public String getAddressId() {
