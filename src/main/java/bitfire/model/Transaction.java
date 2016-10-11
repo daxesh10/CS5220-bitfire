@@ -29,6 +29,24 @@ public class Transaction implements Serializable{
 	
 	double bitcoin;
 	
+	int confirmations;
+	
+	public int getConfirmations() {
+		return confirmations;
+	}
+
+	public void setConfirmations(int confirmations) {
+		this.confirmations = confirmations;
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
 	@OneToOne
 	@JoinColumn(name="sender_address_id")
 	Address sender;
