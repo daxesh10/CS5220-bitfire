@@ -25,11 +25,35 @@ public class Transaction implements Serializable{
 	@Column(name="transaction_id")
 	int transactionId;
 	
-	double USD;
+	@OneToOne
+	@JoinColumn(name="sender_address_id")
+	Address sender;
 	
-	double bitcoin;
+	@OneToOne
+	@JoinColumn(name="receiver_address_id")
+	Address receiver;
+	
+	@OneToOne
+	@JoinColumn(name="sender_user_id")
+	User senderUser;
+	
+	@OneToOne
+	@JoinColumn(name="receiver_user_id")
+	User receiverUser;
+	
+	int USD;
+	
+	int bitcoin;
 	
 	int confirmations;
+	
+	@Column(name="notified_sender")
+	Boolean notifiedSender;
+	
+	@Column(name="notified_receiver")
+	Boolean notifiedReceiver;
+
+	Date date;
 	
 	public int getConfirmations() {
 		return confirmations;
@@ -46,22 +70,6 @@ public class Transaction implements Serializable{
 	public void setDate(Date date) {
 		this.date = date;
 	}
-
-	@OneToOne
-	@JoinColumn(name="sender_address_id")
-	Address sender;
-	
-	@OneToOne
-	@JoinColumn(name="receiver_address_id")
-	Address receiver;
-	
-	@Column(name="notified_sender")
-	Boolean notifiedSender;
-	
-	@Column(name="notified_receiver")
-	Boolean notifiedReceiver;
-
-	Date date;
 	
 	public String getTxId() {
 		return txId;
@@ -79,19 +87,19 @@ public class Transaction implements Serializable{
 		this.transactionId = transactionId;
 	}
 
-	public double getUSD() {
+	public int getUSD() {
 		return USD;
 	}
 
-	public void setUSD(double uSD) {
+	public void setUSD(int uSD) {
 		USD = uSD;
 	}
 
-	public double getBitcoin() {
+	public int getBitcoin() {
 		return bitcoin;
 	}
 
-	public void setBitcoin(double bitcoin) {
+	public void setBitcoin(int bitcoin) {
 		this.bitcoin = bitcoin;
 	}
 
@@ -126,5 +134,21 @@ public class Transaction implements Serializable{
 	public void setNotifiedReceiver(Boolean notifiedReceiver) {
 		this.notifiedReceiver = notifiedReceiver;
 	}
-	
+
+	public User getSenderUser() {
+		return senderUser;
+	}
+
+	public void setSenderUser(User senderUser) {
+		this.senderUser = senderUser;
+	}
+
+	public User getReceiverUser() {
+		return receiverUser;
+	}
+
+	public void setReceiverUser(User receiverUser) {
+		this.receiverUser = receiverUser;
+	}
+
 }

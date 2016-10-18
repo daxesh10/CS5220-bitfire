@@ -22,7 +22,7 @@ public class Wallet implements Serializable{
 	@Column(name="wallet_id")
 	String walletId;
 	
-	@OneToOne(mappedBy="walletId")
+	@OneToOne(mappedBy="wallet")
 	@JoinColumn(name="user_id")
 	User user;
 

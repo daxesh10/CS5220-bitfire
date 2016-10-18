@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -30,7 +31,8 @@ public class User implements Serializable{
 	String password;
 
 	@OneToOne
-	Wallet walletId;
+	@JoinColumn(name="wallet_id")
+	Wallet wallet;
 
 	@Column(name="is_active")
 	Boolean isActive;
@@ -68,11 +70,11 @@ public class User implements Serializable{
 	}
 
 	public Wallet getWalletId() {
-		return walletId;
+		return wallet;
 	}
 
 	public void setWalletId(Wallet walletId) {
-		this.walletId = walletId;
+		this.wallet = walletId;
 	}
 
 	public Boolean getIsActive() {
