@@ -53,6 +53,7 @@ public class Transaction implements Serializable{
 	@Column(name="notified_receiver")
 	Boolean notifiedReceiver;
 
+	@Column(name="trans_date")
 	Date date;
 	
 	public int getConfirmations() {

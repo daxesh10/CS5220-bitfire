@@ -20,7 +20,7 @@ public class Address implements Serializable{
 	@Id
 	@GeneratedValue
 	@Column(name="address_id")
-	String addressId;
+	int addressId;
 	
 	String address;
 	
@@ -30,15 +30,23 @@ public class Address implements Serializable{
 	@JoinColumn(name="wallet_id",nullable=false)
 	Wallet wallet;
 	
-	@Column(name="primay")
+	@Column(name="is_primay")
 	boolean isPrimay;
 
-	public String getAddressId() {
+	public int getAddressId() {
 		return addressId;
 	}
 
-	public void setAddressId(String addressId) {
+	public void setAddressId(int addressId) {
 		this.addressId = addressId;
+	}
+
+	public boolean isPrimay() {
+		return isPrimay;
+	}
+
+	public void setPrimay(boolean isPrimay) {
+		this.isPrimay = isPrimay;
 	}
 
 	public String getAddress() {
@@ -64,7 +72,5 @@ public class Address implements Serializable{
 	public void setWallet(Wallet wallet) {
 		this.wallet = wallet;
 	}
-	
-	
 
 }
