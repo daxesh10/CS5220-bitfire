@@ -17,7 +17,6 @@ public class Address implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
-	
 	@Id
 	@GeneratedValue
 	@Column(name="address_id")
@@ -28,8 +27,11 @@ public class Address implements Serializable{
 	String label;
 	
 	@ManyToOne
-	@JoinColumn(name="wallet_id")
+	@JoinColumn(name="wallet_id",nullable=false)
 	Wallet wallet;
+	
+	@Column(name="primay")
+	boolean isPrimay;
 
 	public String getAddressId() {
 		return addressId;
