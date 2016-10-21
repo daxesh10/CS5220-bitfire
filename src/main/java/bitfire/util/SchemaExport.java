@@ -22,6 +22,7 @@ public class SchemaExport {
         properties.put(
             "javax.persistence.schema-generation.scripts.create-target",
             stringWriter );
+   
         Persistence.generateSchema( "bitfire", properties );
 
         // Use Hibernate's SQL formatter to format each statement
