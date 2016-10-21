@@ -2,7 +2,9 @@ create sequence hibernate_sequence start 1 increment 1
 
     create table addresses (
         address_id int4 not null,
+        USD int default 0 not null,
         address varchar(255),
+        bitcoins int default 0 not null,
         is_primay boolean,
         label varchar(255),
         wallet_id varchar(255) not null,

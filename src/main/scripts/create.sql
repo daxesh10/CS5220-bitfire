@@ -1,5 +1,4 @@
-﻿
-create sequence hibernate_sequence minvalue 1000;
+﻿create sequence hibernate_sequence minvalue 1000;
 
 create table wallets(
 	wallet_id varchar(255) primary key
@@ -19,6 +18,8 @@ create table addresses(
 	address varchar(255),
 	is_primary boolean not null default 'f',
 	label varchar(255),
+	USD integer not null default 0,
+	bitcoins integer not null default 0,
 	wallet_id varchar(255) not null references wallets(wallet_id)
 );
 
@@ -51,18 +52,18 @@ insert into users(user_id, email, name, password, is_active, wallet_id) values
 insert into users(user_id, email, name, password, is_active, wallet_id) values
 (4, 'daxesh@gmail.com', 'Daxesh', 'Daxesh123', true, 'daxesh123wallet');
 
-insert into addresses(address_id, address, is_primary,label, wallet_id) values
-(100, 'sevakAddress123', true, 'Saving', 'sevak123wallet');
-insert into addresses(address_id, address, is_primary,label, wallet_id) values
-(101, 'sevakAddress234', false,'Checking' , 'sevak123wallet'); 
-insert into addresses(address_id, address, is_primary,label, wallet_id) values
-(102, 'sevakAddress345', false, 'Personal', 'sevak123wallet');
-insert into addresses(address_id, address, is_primary,label, wallet_id) values
-(103, 'dipeshAddress123', false, 'home', 'dipesh123wallet');
-insert into addresses(address_id, address, is_primary,label, wallet_id) values
-(104, 'dipeshAddress234', false,'business' , 'dipesh123wallet'); 
-insert into addresses(address_id, address, is_primary,label, wallet_id) values
-(105, 'dipeshAddress345', true, 'Personal', 'dipesh123wallet'); 
+insert into addresses(address_id, address, is_primary,label, USD, bitcoins, wallet_id) values
+(100, 'sevakAddress123', true, 'Saving', 10000, 158800 , 'sevak123wallet');
+insert into addresses(address_id, address, is_primary, label, USD, bitcoins, wallet_id) values
+(101, 'sevakAddress234', false, 'Checking' , 6000, 956260 , 'sevak123wallet'); 
+insert into addresses(address_id, address, is_primary,label, USD, bitcoins, wallet_id) values
+(102, 'sevakAddress345', false, 'Personal',11280, 179100, 'sevak123wallet');
+insert into addresses(address_id, address, is_primary,label, USD, bitcoins, wallet_id) values
+(103, 'dipeshAddress123', false, 'home', 5999 , 95250, 'dipesh123wallet');
+insert into addresses(address_id, address, is_primary,label, USD, bitcoins, wallet_id) values
+(104, 'dipeshAddress234', false,'business' , 1010 , 16040 ,  'dipesh123wallet'); 
+insert into addresses(address_id, address, is_primary,label, USD, bitcoins, wallet_id) values
+(105, 'dipeshAddress345', true, 'Personal', 2888,45870, 'dipesh123wallet'); 
 
 insert into transactions(transaction_id, tx_id, USD, bitcoin, confirmations, trans_date, sender_address_id, receiver_address_id, sender_user_id, receiver_user_id, notified_sender, notified_receiver) values
 (1000, 'trans1000', 100,10, 1,TIMESTAMP '2016-08-15 15:36:38',100,104,1,2,false,false);

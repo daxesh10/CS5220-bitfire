@@ -32,6 +32,12 @@ public class Address implements Serializable{
 	
 	@Column(name="is_primay")
 	boolean isPrimay;
+	
+	@Column(nullable=false,columnDefinition="int default 0")
+	int bitcoins;
+	
+	@Column(nullable=false, columnDefinition="int default 0")
+	int USD;
 
 	public int getAddressId() {
 		return addressId;

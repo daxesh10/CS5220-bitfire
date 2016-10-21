@@ -12,9 +12,9 @@
 
     <bean id="dataSource" class="org.apache.tomcat.jdbc.pool.DataSource" destroy-method="close">
         <property name="driverClassName" value="org.postgresql.Driver" />
-        <property name="url" value="jdbc:postgresql://localhost:5432/lab3" />
-        <property name="username" value="sevakmn" />
-        <property name="password" value="sevakmn1515%" />
+        <property name="url" value="jdbc:postgresql://localhost:5432/test" />
+        <property name="username" value="postgres" />
+        <property name="password" value="password" />
         <property name="initialSize" value="1" />
     </bean>
 
