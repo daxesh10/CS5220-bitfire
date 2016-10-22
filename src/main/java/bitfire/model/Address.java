@@ -17,26 +17,42 @@ public class Address implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
-	
 	@Id
 	@GeneratedValue
 	@Column(name="address_id")
-	String addressId;
+	int addressId;
 	
 	String address;
 	
 	String label;
 	
 	@ManyToOne
-	@JoinColumn(name="wallet_id")
+	@JoinColumn(name="wallet_id",nullable=false)
 	Wallet wallet;
+	
+	@Column(name="is_primay")
+	boolean isPrimay;
+	
+	@Column(nullable=false,columnDefinition="int default 0")
+	int bitcoins;
+	
+	@Column(nullable=false, columnDefinition="int default 0")
+	int USD;
 
-	public String getAddressId() {
+	public int getAddressId() {
 		return addressId;
 	}
 
-	public void setAddressId(String addressId) {
+	public void setAddressId(int addressId) {
 		this.addressId = addressId;
+	}
+
+	public boolean isPrimay() {
+		return isPrimay;
+	}
+
+	public void setPrimay(boolean isPrimay) {
+		this.isPrimay = isPrimay;
 	}
 
 	public String getAddress() {
@@ -62,7 +78,5 @@ public class Address implements Serializable{
 	public void setWallet(Wallet wallet) {
 		this.wallet = wallet;
 	}
-	
-	
 
 }
