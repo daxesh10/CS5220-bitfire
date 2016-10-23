@@ -17,8 +17,8 @@
     <bean id="dataSource" class="org.apache.tomcat.jdbc.pool.DataSource" destroy-method="close">
         <property name="driverClassName" value="org.postgresql.Driver" />
         <property name="url" value="jdbc:postgresql://localhost:5432/bitfire" />
-        <property name="username" value="postgres" />
-        <property name="password" value="password" />
+        <property name="username" value="Sevak" />
+        <property name="password" value="sevakmn1515%" />
         <property name="initialSize" value="1" />
     </bean>
 	
@@ -39,13 +39,18 @@
     <tx:annotation-driven />
 
     <context:component-scan base-package="bitfire.model" />
+     <context:component-scan base-package="bitfire.security" />
 	
 	<security:http auto-config="true" use-expressions="true">
         <security:intercept-url pattern="/user**" access="authenticated" />
+         <security:csrf disabled="true" />
+        <security:form-login login-page="/login.html"/>
+        <security:logout logout-success-url="/" />
     </security:http>
+    
+    
+    
 	<security:authentication-manager>
-        <security:authentication-provider>
-            <security:jdbc-user-service data-source-ref="dataSource" />
-        </security:authentication-provider>
+        <security:authentication-provider user-service-ref="userService" />
     </security:authentication-manager>
 </beans>

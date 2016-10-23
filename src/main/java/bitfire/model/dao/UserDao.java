@@ -6,7 +6,7 @@ public interface UserDao {
 
 	User getUser(int id);
 	
-	User getUserDetails(String walletId);
-	
 	User saveUser(User user);
+	
+	User getUserByUsername(String email);
 }

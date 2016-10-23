@@ -7,8 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import bitfire.model.dao.UserDao;
 
-
-
 @Controller
 public class UserController {
 	

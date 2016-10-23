@@ -2,9 +2,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Registration</title>
+<title>Login</title>
 </head>
 <body>
-Please register here ${user }
+
 </body>
 </html>
