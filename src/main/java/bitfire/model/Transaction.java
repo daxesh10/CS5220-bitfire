@@ -1,6 +1,8 @@
 package bitfire.model;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -27,11 +29,11 @@ public class Transaction implements Serializable{
 	
 	@OneToOne
 	@JoinColumn(name="sender_address_id")
-	Address sender;
+	Address senderAddress;
 	
 	@OneToOne
 	@JoinColumn(name="receiver_address_id")
-	Address receiver;
+	Address receiverAddress;
 	
 	@OneToOne
 	@JoinColumn(name="sender_user_id")
@@ -55,6 +57,14 @@ public class Transaction implements Serializable{
 
 	@Column(name="trans_date")
 	Date date;
+	
+	public Transaction()
+	{
+		date=new Date();
+		confirmations=0;
+		notifiedReceiver=true;
+		notifiedSender=true;
+	}
 	
 	public int getConfirmations() {
 		return confirmations;
@@ -88,36 +98,39 @@ public class Transaction implements Serializable{
 		this.transactionId = transactionId;
 	}
 
-	public int getUSD() {
-		return USD;
+	public String getUSD() {
+		
+		return NumberFormat.getCurrencyInstance().format(USD/100.0);
 	}
 
 	public void setUSD(int uSD) {
 		USD = uSD;
 	}
 
-	public int getBitcoin() {
-		return bitcoin;
+	public String getBitcoin() {
+		
+		DecimalFormat format=new DecimalFormat("#0.00000000");
+		return format.format(bitcoin/100000000.0);
 	}
 
 	public void setBitcoin(int bitcoin) {
 		this.bitcoin = bitcoin;
 	}
 
-	public Address getSender() {
-		return sender;
+	public Address getSenderAddress() {
+		return senderAddress;
 	}
 
-	public void setSender(Address sender) {
-		this.sender = sender;
+	public void setSenderAddress(Address senderAddress) {
+		this.senderAddress = senderAddress;
 	}
 
-	public Address getReceiver() {
-		return receiver;
+	public Address getReceiverAddress() {
+		return receiverAddress;
 	}
 
-	public void setReceiver(Address receiver) {
-		this.receiver = receiver;
+	public void setReceiverAddress(Address receiverAddress) {
+		this.receiverAddress = receiverAddress;
 	}
 
 	public Boolean getNotifiedSender() {
