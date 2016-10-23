@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
 import bitfire.model.Address;
+import bitfire.model.Transaction;
 import bitfire.model.User;
 import bitfire.model.Wallet;
 import bitfire.model.dao.AddressDao;
+import bitfire.model.dao.TransactionDao;
 import bitfire.model.dao.UserDao;
 import bitfire.model.dao.WalletDao;
 import bitfire.security.SecurityUtils;
@@ -33,6 +35,9 @@ public class UserController {
 	
 	@Autowired
 	private AddressDao addressDao;
+	
+	@Autowired
+	private TransactionDao transDao;
 	
 	@RequestMapping("/index.html")
 	public String index(ModelMap maps)
@@ -99,7 +104,45 @@ public class UserController {
 		status.isComplete();
 		return "redirect:/user/wallet.html";
 	}
+	
+	@RequestMapping(value ={"/user/send.html"}, method = RequestMethod.GET)
+	public String send(){
+		return "/user/send";
+	}
+	
+	@RequestMapping(value ={"/user/send.html"}, method = RequestMethod.POST)
+	public String send(@RequestParam String email, @RequestParam Double btc){
+		User receiverUser=userDao.getUserByUsername(email);
+		Address senderAddress=addressDao.getPrimaryAddress(SecurityUtils.getUser().getWallet());
+		senderAddress.setBitcoins(senderAddress.getBitcoinsActual()-(int)(btc*100000000));
+		senderAddress.setUSD(senderAddress.getUSDActual()-(int)(650*btc*100));
+		addressDao.saveAddress(senderAddress);
+		
+		
+		Address receiverAddress=addressDao.getPrimaryAddress(receiverUser.getWallet());
+		receiverAddress.setBitcoins(receiverAddress.getBitcoinsActual()+(int)(btc*100000000));
+		receiverAddress.setUSD(receiverAddress.getUSDActual()+(int)(650*btc*100));
+		addressDao.saveAddress(receiverAddress);
+		
+		Transaction transaction= new Transaction();
+		transaction.setSenderAddress(senderAddress);
+		transaction.setReceiverAddress(receiverAddress);
+		transaction.setBitcoin((int) (btc*100000000));
+		transaction.setUSD((int)(650*btc*100));
+		transaction.setSenderUser(SecurityUtils.getUser());
+		transaction.setReceiverUser(receiverUser);
+		transaction.setTxId("trans"+Math.random());
+		transDao.saveTransaction(transaction);
+		return "/user/send";
+	}
 
+	@RequestMapping(value ={"/user/transactions.html"}, method = RequestMethod.GET)
+	public String transactoins(ModelMap map){
+		
+		map.put("transactions", transDao.getAllTransactions(SecurityUtils.getUser()));
+		map.put("user", SecurityUtils.getUser());
+		return "/user/transactions";
+	}
 
 
 }

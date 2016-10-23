@@ -44,11 +44,20 @@ public class AddressDaoImpl implements AddressDao{
 		Address Oldaddress=entityManager.createQuery("from Address a where a.wallet = :wallet and a.primary = :primary order by a.addressId asc",Address.class)
 				.setParameter("wallet", wallet)
 				.setParameter("primary", true)
-				.getResultList().get(0);
+				.getSingleResult();
 		Oldaddress.setPrimary(false);	
 		saveAddress(Oldaddress);
 
 		return saveAddress(address);
+	}
+
+	@Override
+	public Address getPrimaryAddress(Wallet wallet) {
+		
+		return entityManager.createQuery("from Address where wallet = :wallet and primary = :primary",Address.class)
+				.setParameter("wallet", wallet)
+				.setParameter("primary", true)
+				.getSingleResult();
 	}
 }
 

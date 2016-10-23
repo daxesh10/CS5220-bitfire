@@ -84,6 +84,9 @@ public class Address implements Serializable{
 		DecimalFormat format=new DecimalFormat("#0.00000000");
 		return format.format(bitcoins/100000000.0);
 	}
+	public int getBitcoinsActual() {
+		return bitcoins;
+	}
 
 	public void setBitcoins(int bitcoins) {
 		this.bitcoins = bitcoins;
@@ -92,6 +95,10 @@ public class Address implements Serializable{
 	public String getUSD() {
 		
 		return NumberFormat.getCurrencyInstance().format(USD/100.0);
+	}
+	public int getUSDActual() {
+		
+		return USD;
 	}
 
 	public void setUSD(int uSD) {

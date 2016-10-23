@@ -15,6 +15,8 @@
  <security:authorize access="authenticated">
  <p>Hi ${user.name }</p>
  <a href="<c:url value='/user/wallet.html' />">Wallet</a>
+ <a href="<c:url value='/user/transactions.html' />">Transactions</a>
+  <a href="<c:url value='/user/send.html' />">Send</a>
     <a href="<c:url value='/logout' />">Logout</a>
     
   </security:authorize>
