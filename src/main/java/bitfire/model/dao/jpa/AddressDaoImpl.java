@@ -38,18 +38,17 @@ public class AddressDaoImpl implements AddressDao{
 	}
 
 	@Override
-	public Address setPrimary(int addressId, String walletId) {
+	@Transactional
+	public Address setPrimary(Address address, Wallet wallet) {
 		
-		Address address=entityManager.createQuery("from Address where wallet = :wallet and isPrimary = :isPrimary",Address.class)
-				.setParameter("wallet", walletId)
-				.setParameter("isPrmary", true)
+		Address Oldaddress=entityManager.createQuery("from Address a where a.wallet = :wallet and a.primary = :primary order by a.addressId asc",Address.class)
+				.setParameter("wallet", wallet)
+				.setParameter("primary", true)
 				.getResultList().get(0);
-		address.setPrimary(false);
-		saveAddress(address);
-		
-		Address newPrimaryAddress=getAddress(addressId);
-		newPrimaryAddress.setPrimary(true);
-		return saveAddress(newPrimaryAddress);
+		Oldaddress.setPrimary(false);	
+		saveAddress(Oldaddress);
+
+		return saveAddress(address);
 	}
 }
 

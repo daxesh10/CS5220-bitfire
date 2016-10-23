@@ -13,6 +13,6 @@ public interface AddressDao {
 
 	Address saveAddress(Address address);
 	
-	Address setPrimary(int addressId,String walletId);
+	Address setPrimary(Address address,Wallet wallet);
 	
 }

@@ -11,7 +11,6 @@
 <p>
  <security:authorize access="anonymous">
     <a href="<c:url value='/login.html' />">Login</a>
-
   </security:authorize> 
  <security:authorize access="authenticated">
  <p>Hi ${user.name }</p>
