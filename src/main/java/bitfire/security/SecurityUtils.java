@@ -18,13 +18,11 @@ public class SecurityUtils {
 
     public static boolean isAuthenticated()
     {
-    	System.out.println("I am in isAuthenticated()");
         return !isAnonymous();
     }
 
     public static User getUser()
     {
-    	System.out.println("I am in SecurityUtils");
         return isAuthenticated() ? (User) SecurityContextHolder.getContext()
             .getAuthentication()
             .getPrincipal() : null;

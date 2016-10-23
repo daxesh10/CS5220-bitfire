@@ -14,8 +14,10 @@
 
   </security:authorize> 
  <security:authorize access="authenticated">
+ <p>Hi ${user.name }</p>
+ <a href="<c:url value='/user/wallet.html' />">Wallet</a>
     <a href="<c:url value='/logout' />">Logout</a>
-    <p>Hi</p>
+    
   </security:authorize>
 </p>
 </body>

@@ -5,9 +5,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CollectionTable;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -16,7 +14,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
@@ -46,6 +43,10 @@ public class User implements Serializable, UserDetails{
 	@Column(name="enabled")
 	Boolean isActive;
 	
+	public User()
+	{
+		this.isActive=true;
+	}
 	
 	public int getUserId() {
 		return userId;
@@ -75,14 +76,6 @@ public class User implements Serializable, UserDetails{
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	public Wallet getWalletId() {
-		return wallet;
-	}
-
-	public void setWalletId(Wallet walletId) {
-		this.wallet = walletId;
 	}
 
 	public Boolean getIsActive() {
