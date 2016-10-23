@@ -1,6 +1,8 @@
 package bitfire.model;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -30,8 +32,8 @@ public class Address implements Serializable{
 	@JoinColumn(name="wallet_id",nullable=false)
 	Wallet wallet;
 	
-	@Column(name="is_primay")
-	boolean isPrimay;
+	@Column(name="is_primary")
+	boolean primary;
 	
 	@Column(nullable=false,columnDefinition="int default 0")
 	int bitcoins;
@@ -39,20 +41,18 @@ public class Address implements Serializable{
 	@Column(nullable=false, columnDefinition="int default 0")
 	int USD;
 
+	public Address()
+	{
+		this.bitcoins=0;
+		this.USD=0;
+	}
+	
 	public int getAddressId() {
 		return addressId;
 	}
 
 	public void setAddressId(int addressId) {
 		this.addressId = addressId;
-	}
-
-	public boolean isPrimay() {
-		return isPrimay;
-	}
-
-	public void setPrimay(boolean isPrimay) {
-		this.isPrimay = isPrimay;
 	}
 
 	public String getAddress() {
@@ -79,4 +79,31 @@ public class Address implements Serializable{
 		this.wallet = wallet;
 	}
 
+	public String getBitcoins() {
+		
+		DecimalFormat format=new DecimalFormat("#0.00000000");
+		return format.format(bitcoins/100000000.0);
+	}
+
+	public void setBitcoins(int bitcoins) {
+		this.bitcoins = bitcoins;
+	}
+
+	public String getUSD() {
+		
+		return NumberFormat.getCurrencyInstance().format(USD/100.0);
+	}
+
+	public void setUSD(int uSD) {
+		USD = uSD;
+	}
+
+	public boolean isPrimary() {
+		return primary;
+	}
+
+	public void setPrimary(boolean primary) {
+		this.primary = primary;
+	}
+	
 }

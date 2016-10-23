@@ -1,8 +1,8 @@
 package bitfire.model.dao;
 
-import bitfire.model.User;
+import bitfire.model.Wallet;
 
 public interface WalletDao {
 
-	User getUser(String walletId);
+	Wallet saveWallet(Wallet wallet);
 }

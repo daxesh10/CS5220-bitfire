@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <html>
 <head>
 <meta charset="UTF-8">
@@ -42,26 +43,26 @@
 		<div class = "well well-lg">
 			<!-- Login Form -->
 			<!-- action needs to be updated -->
-			<form action="#" method=POST>
+			<form:form modelAttribute="userRegister">
 				<div class = "form_group">
 					<label class = "white" for = "name_field"> Name </label>
-					<input type = "text" class = "form-control" id = "name_field" placeholder = "Enter your full name">
+					<form:input type = "text" path="name"  class = "form-control" id = "name_field" placeholder = "Enter your full name" />
 				</div><br>
 				<div class = "form_group">
 					<label class = "white" for = "email_field"> Email Address </label>
-					<input type = "email" class = "form-control" id = "email_field" placeholder = "Enter email">
+					<form:input type = "email" path="username" class = "form-control" id = "email_field" placeholder = "Enter email" />
 				</div><br>
 				<div class = "form_group">
 					<label class = "white" for = "password_field"> Password </label>
-					<input type = "password" class = "form-control" id = "password_field" placeholder = "Enter password">
+					<form:input type = "password" path="password" class = "form-control" id = "password_field" placeholder = "Enter password" />
 				</div><br>
 				<div class = "form_group">
 					<label class = "white" for = "re-password_field"> Password Re-entry </label>
-					<input type = "password" class = "form-control" id = "re-password_field" placeholder = "Re-enter password">
+					<input type = "password" class = "form-control" id = "re-password_field" placeholder = "Re-enter password" />
 				</div><br>
 			
 				<button type = "submit" class = "btn btn-primary btn-block">Register</button>
-			</form>
+			</form:form>
 		</div>
 	</div>
 	

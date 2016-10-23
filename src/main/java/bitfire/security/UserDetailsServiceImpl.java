@@ -24,7 +24,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         
         if( user == null )
             throw new UsernameNotFoundException( username + " is not found." );
-        System.out.println("IN THIS USERNAME: " + user.getUsername());
         return user;
     }
 
