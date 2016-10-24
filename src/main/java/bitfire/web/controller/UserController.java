@@ -1,5 +1,7 @@
 package bitfire.web.controller;
 
+import java.util.Random;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -138,11 +140,18 @@ public class UserController {
 
 	@RequestMapping(value ={"/user/transactions.html"}, method = RequestMethod.GET)
 	public String transactoins(ModelMap map){
-		
 		map.put("transactions", transDao.getAllTransactions(SecurityUtils.getUser()));
 		map.put("user", SecurityUtils.getUser());
 		return "/user/transactions";
 	}
 
+	@RequestMapping(value ={"/user/addaddress.html"}, method = RequestMethod.GET)
+	public String addaddress(){
+		Address address = new Address();
+		address.setAddress(SecurityUtils.getUser().getName().toLowerCase()+ "Address" + new Random().nextInt(10000) + 1000);
+		address.setWallet(SecurityUtils.getUser().getWallet());
+		addressDao.saveAddress(address);
+		return "redirect:/user/wallet.html";
+	}
 
 }

@@ -6,6 +6,9 @@
 <title>Wallet</title>
 </head>
 <body>
+
+<form action ="<c:url value='/user/addaddress.html' />" action ='get'>
+
 <table border="1">
 <tr><th>Address</th><th>Label</th><th>USD</th><th>BTC</th><th>Primary</th><th>Edit</th></tr>
 
@@ -27,5 +30,9 @@
 </tr>
 </c:forEach>
 </table>
+
+<input type="submit" value="Add address" />
+</form>
+
 </body>
 </html>
