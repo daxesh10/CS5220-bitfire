@@ -33,6 +33,7 @@
 </table>
 <input type="submit" value="Add address" />
 </form>
-<p>${error}</p>
+<input type="button" onclick='location.href="<c:url value ='/user/selftransfer.html' />"' value="Self Transfer">
+<p>${message}</p>
 </body>
 </html>

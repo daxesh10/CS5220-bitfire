@@ -5,7 +5,6 @@ import java.util.Random;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -115,26 +114,9 @@ public class UserController {
 	@RequestMapping(value ={"/user/send.html"}, method = RequestMethod.POST)
 	public String send(@RequestParam String email, @RequestParam Double btc){
 		User receiverUser=userDao.getUserByUsername(email);
-		Address senderAddress=addressDao.getPrimaryAddress(SecurityUtils.getUser().getWallet());
-		senderAddress.setBitcoins(senderAddress.getBitcoinsActual()-(int)(btc*100000000));
-		senderAddress.setUSD(senderAddress.getUSDActual()-(int)(650*btc*100));
-		addressDao.saveAddress(senderAddress);
-		
-		
 		Address receiverAddress=addressDao.getPrimaryAddress(receiverUser.getWallet());
-		receiverAddress.setBitcoins(receiverAddress.getBitcoinsActual()+(int)(btc*100000000));
-		receiverAddress.setUSD(receiverAddress.getUSDActual()+(int)(650*btc*100));
-		addressDao.saveAddress(receiverAddress);
-		
-		Transaction transaction= new Transaction();
-		transaction.setSenderAddress(senderAddress);
-		transaction.setReceiverAddress(receiverAddress);
-		transaction.setBitcoin((int) (btc*100000000));
-		transaction.setUSD((int)(650*btc*100));
-		transaction.setSenderUser(SecurityUtils.getUser());
-		transaction.setReceiverUser(receiverUser);
-		transaction.setTxId("trans"+Math.random());
-		transDao.saveTransaction(transaction);
+		Address senderAddress=addressDao.getPrimaryAddress(SecurityUtils.getUser().getWallet());
+		tranfer(senderAddress, receiverAddress, btc);
 		return "redirect/user/transactions.html";
 	}
 
@@ -173,5 +155,57 @@ public class UserController {
 		return "/user/wallet";
 		
 	}
+	
+	@RequestMapping(value ={"/user/selftransfer.html"}, method = RequestMethod.GET)
+	public String selftransfer(ModelMap map)
+	{	
+		map.put("addresses", addressDao.getAddresses(SecurityUtils.getUser().getWallet()));
+		return "/user/selftransfer";
+	}
+	
+	@RequestMapping(value ={"/user/selftransfer.html"}, method = RequestMethod.POST)
+	public String selftransfer(@RequestParam int from, @RequestParam int to, @RequestParam double amount, ModelMap map)
+	{	
+		System.out.println("From: " + from + " TO: " + to + " AMOUNT: " + amount);
+		
+		if(from == to){
+			map.put("message", "From address can not be the same as TO address");
+		}
+		else{
+			Address senderAddress=addressDao.getAddress(from);
+			Address receiverAddress=addressDao.getAddress(to);
+			tranfer(senderAddress,receiverAddress, amount);
+			map.put("message", "Successfully tranferred " + amount + " BTC from " + addressDao.getAddress(from).getAddress() + 
+					" to " + addressDao.getAddress(to).getAddress());
+			map.put("addresses", addressDao.getAddresses(SecurityUtils.getUser().getWallet()));
+		}
+		return "/user/wallet";
+	}
+	
+	private void tranfer(Address senderAddress, Address receiverAddress, double btc ){
+		
+		
+		
+		senderAddress.setBitcoins(senderAddress.getBitcoinsActual()-(int)(btc*100000000));
+		senderAddress.setUSD(senderAddress.getUSDActual()-(int)(650*btc*100));
+		addressDao.saveAddress(senderAddress);
+		
+		
+		
+		receiverAddress.setBitcoins(receiverAddress.getBitcoinsActual()+(int)(btc*100000000));
+		receiverAddress.setUSD(receiverAddress.getUSDActual()+(int)(650*btc*100));
+		addressDao.saveAddress(receiverAddress);
+		
+		Transaction transaction= new Transaction();
+		transaction.setSenderAddress(senderAddress);
+		transaction.setReceiverAddress(receiverAddress);
+		transaction.setBitcoin((int) (btc*100000000));
+		transaction.setUSD((int)(650*btc*100));
+		transaction.setSenderUser(SecurityUtils.getUser());
+		transaction.setReceiverUser(receiverAddress.getWallet().getUser());
+		transaction.setTxId("trans"+Math.random());
+		transDao.saveTransaction(transaction);
+	}
+	
 
 }
