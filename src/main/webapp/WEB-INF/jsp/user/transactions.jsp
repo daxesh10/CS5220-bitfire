@@ -11,12 +11,18 @@
 <tr><th>Type</th><th>Date</th><th>Email</th><th>TX</th><th>BTC</th><th>USD</th><th>Confirmations</th></tr>
 <c:forEach items="${transactions}" var="trans">
 <tr>
-	<c:if test = "${user.userId eq trans.senderUser.userId}" >
-		<td>Sent</td>
-	</c:if>
-	<c:if test = "${ user.userId eq trans.receiverUser.userId}" >
-		<td>Received</td>
-	</c:if> 
+	<c:if test = "${ trans.senderUser.userId eq trans.receiverUser.userId}" >
+		<td>Self transfer</td>
+	</c:if >
+	
+	<c:if test = "${ trans.senderUser.userId ne trans.receiverUser.userId}" >
+		<c:if test = "${user.userId eq trans.senderUser.userId}" >
+			<td>Sent</td>
+		</c:if>
+		<c:if test = "${ user.userId eq trans.receiverUser.userId}" >
+			<td>Received</td>
+		</c:if> 
+ 	</c:if>
 	<td>${trans.date}</td>
 	<td>${trans.senderUser.username}</td>
 	<td>${trans.txId}</td>

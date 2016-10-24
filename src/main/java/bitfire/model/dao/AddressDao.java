@@ -18,4 +18,5 @@ public interface AddressDao {
 	Address getPrimaryAddress(Wallet wallet);
 	
 	
+	
 }

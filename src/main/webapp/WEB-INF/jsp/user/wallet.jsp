@@ -6,8 +6,11 @@
 <title>Wallet</title>
 </head>
 <body>
+
+<form action ="<c:url value='/user/addaddress.html' />" action ='get'>
+
 <table border="1">
-<tr><th>Address</th><th>Label</th><th>USD</th><th>BTC</th><th>Primary</th><th>Edit</th></tr>
+<tr><th>Address</th><th>Label</th><th>USD</th><th>BTC</th><th>Primary</th><th>Edit</th><th>Archive</th></tr>
 
 <c:forEach items="${addresses}" var="address">
 <tr>
@@ -22,10 +25,15 @@
 	<td></td>
 	</c:if>
 	
-	<td><a href="<c:url value='/user/address.html?id=${ address.addressId }' />">Edit</a></td>
+	<td><a href="<c:url value='/user/editaddress.html?id=${ address.addressId }' />">Edit</a></td>
+	<td><a href="<c:url value='/user/archiveaddress.html?id=${ address.addressId }' />">Archive</a></td>
 	
 </tr>
 </c:forEach>
 </table>
+<input type="submit" value="Add address" />
+</form>
+<input type="button" onclick='location.href="<c:url value ='/user/selftransfer.html' />"' value="Self Transfer">
+<p>${message}</p>
 </body>
 </html>

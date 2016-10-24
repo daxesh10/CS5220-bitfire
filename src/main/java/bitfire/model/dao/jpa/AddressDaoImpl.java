@@ -25,8 +25,9 @@ public class AddressDaoImpl implements AddressDao{
 
 	@Override
 	public List<Address> getAddresses(Wallet wallet) {
-		List<Address> addresses=entityManager.createQuery("from Address where wallet = :wallet",Address.class)
+		List<Address> addresses=entityManager.createQuery("from Address where wallet = :wallet and archived = :status",Address.class)
 				.setParameter("wallet", wallet)
+				.setParameter("status", false)
 				.getResultList();
 		return addresses;
 	}
@@ -41,7 +42,7 @@ public class AddressDaoImpl implements AddressDao{
 	@Transactional
 	public Address setPrimary(Address address, Wallet wallet) {
 		
-		Address Oldaddress=entityManager.createQuery("from Address a where a.wallet = :wallet and a.primary = :primary order by a.addressId asc",Address.class)
+		Address Oldaddress=entityManager.createQuery("from Address where wallet = :wallet and primary = :primary",Address.class)
 				.setParameter("wallet", wallet)
 				.setParameter("primary", true)
 				.getSingleResult();
@@ -59,5 +60,6 @@ public class AddressDaoImpl implements AddressDao{
 				.setParameter("primary", true)
 				.getSingleResult();
 	}
+
 }
 

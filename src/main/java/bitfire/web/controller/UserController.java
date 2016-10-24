@@ -1,9 +1,10 @@
 package bitfire.web.controller;
 
+import java.util.Random;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -82,14 +83,14 @@ public class UserController {
 		return "/user/wallet";
 	}
 	
-	@RequestMapping(value ={"/user/address.html"}, method = RequestMethod.GET)
+	@RequestMapping(value ={"/user/editaddress.html"}, method = RequestMethod.GET)
 	public String address(@RequestParam int id, ModelMap maps)
 	{
 		maps.put("address", addressDao.getAddress(id));
 		return "/user/address";
 	}
 	
-	@RequestMapping(value ={"/user/address.html"}, method = RequestMethod.POST)
+	@RequestMapping(value ={"/user/editaddress.html"}, method = RequestMethod.POST)
 	public String editaddress(  @ModelAttribute Address address, HttpServletRequest request, SessionStatus status )
 	{
 		System.out.println("address valu is: " + address.isPrimary());
@@ -113,13 +114,84 @@ public class UserController {
 	@RequestMapping(value ={"/user/send.html"}, method = RequestMethod.POST)
 	public String send(@RequestParam String email, @RequestParam Double btc){
 		User receiverUser=userDao.getUserByUsername(email);
+		Address receiverAddress=addressDao.getPrimaryAddress(receiverUser.getWallet());
 		Address senderAddress=addressDao.getPrimaryAddress(SecurityUtils.getUser().getWallet());
+		tranfer(senderAddress, receiverAddress, btc);
+		return "redirect/user/transactions.html";
+	}
+
+	@RequestMapping(value ={"/user/transactions.html"}, method = RequestMethod.GET)
+	public String transactoins(ModelMap map){
+		map.put("transactions", transDao.getAllTransactions(SecurityUtils.getUser()));
+		map.put("user", SecurityUtils.getUser());
+		return "/user/transactions";
+	}
+
+	@RequestMapping(value ={"/user/addaddress.html"}, method = RequestMethod.GET)
+	public String addaddress(){
+		Address address = new Address();
+		address.setAddress(SecurityUtils.getUser().getName().toLowerCase()+ "Address" + new Random().nextInt(10000) + 1000);
+		address.setWallet(SecurityUtils.getUser().getWallet());
+		addressDao.saveAddress(address);
+		return "redirect:/user/wallet.html";
+	}
+	
+	
+	@RequestMapping(value ={"/user/archiveaddress.html"}, method = RequestMethod.GET)
+	public String archiveAddress(@RequestParam int id, ModelMap map)
+	{
+		Address address = addressDao.getAddress(id);
+		if(address.isPrimary() || address.getBitcoinsActual() > 0 )
+		{
+			map.put("message", "Can't archieve primary address or address have balance");
+		}
+		else
+		{
+			address.setArchived(true);
+			addressDao.saveAddress(address);
+		}
+		map.put("addresses",addressDao.getAddresses(SecurityUtils.getUser().getWallet()) );
+
+		return "/user/wallet";
+		
+	}
+	
+	@RequestMapping(value ={"/user/selftransfer.html"}, method = RequestMethod.GET)
+	public String selftransfer(ModelMap map)
+	{	
+		map.put("addresses", addressDao.getAddresses(SecurityUtils.getUser().getWallet()));
+		return "/user/selftransfer";
+	}
+	
+	@RequestMapping(value ={"/user/selftransfer.html"}, method = RequestMethod.POST)
+	public String selftransfer(@RequestParam int from, @RequestParam int to, @RequestParam double amount, ModelMap map)
+	{	
+		System.out.println("From: " + from + " TO: " + to + " AMOUNT: " + amount);
+		
+		if(from == to){
+			map.put("message", "From address can not be the same as TO address");
+		}
+		else{
+			Address senderAddress=addressDao.getAddress(from);
+			Address receiverAddress=addressDao.getAddress(to);
+			tranfer(senderAddress,receiverAddress, amount);
+			map.put("message", "Successfully tranferred " + amount + " BTC from " + addressDao.getAddress(from).getAddress() + 
+					" to " + addressDao.getAddress(to).getAddress());
+			map.put("addresses", addressDao.getAddresses(SecurityUtils.getUser().getWallet()));
+		}
+		return "/user/wallet";
+	}
+	
+	private void tranfer(Address senderAddress, Address receiverAddress, double btc ){
+		
+		
+		
 		senderAddress.setBitcoins(senderAddress.getBitcoinsActual()-(int)(btc*100000000));
 		senderAddress.setUSD(senderAddress.getUSDActual()-(int)(650*btc*100));
 		addressDao.saveAddress(senderAddress);
 		
 		
-		Address receiverAddress=addressDao.getPrimaryAddress(receiverUser.getWallet());
+		
 		receiverAddress.setBitcoins(receiverAddress.getBitcoinsActual()+(int)(btc*100000000));
 		receiverAddress.setUSD(receiverAddress.getUSDActual()+(int)(650*btc*100));
 		addressDao.saveAddress(receiverAddress);
@@ -130,19 +202,10 @@ public class UserController {
 		transaction.setBitcoin((int) (btc*100000000));
 		transaction.setUSD((int)(650*btc*100));
 		transaction.setSenderUser(SecurityUtils.getUser());
-		transaction.setReceiverUser(receiverUser);
+		transaction.setReceiverUser(receiverAddress.getWallet().getUser());
 		transaction.setTxId("trans"+Math.random());
 		transDao.saveTransaction(transaction);
-		return "/user/send";
 	}
-
-	@RequestMapping(value ={"/user/transactions.html"}, method = RequestMethod.GET)
-	public String transactoins(ModelMap map){
-		
-		map.put("transactions", transDao.getAllTransactions(SecurityUtils.getUser()));
-		map.put("user", SecurityUtils.getUser());
-		return "/user/transactions";
-	}
-
+	
 
 }
