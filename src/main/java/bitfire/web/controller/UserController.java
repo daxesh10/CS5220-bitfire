@@ -1,5 +1,8 @@
 package bitfire.web.controller;
 
+import java.text.DecimalFormat;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
@@ -41,9 +44,30 @@ public class UserController {
 	private TransactionDao transDao;
 	
 	@RequestMapping("/index.html")
-	public String index(ModelMap maps)
+	public String index(ModelMap map)
 	{
-		maps.put("user", SecurityUtils.getUser());
+		
+		User user = SecurityUtils.getUser();
+		if(user != null){
+			List<Address> addresses = addressDao.getAddresses(user.getWallet());
+			map.put("user", user);
+			map.put("addresses", addresses);
+			int sum =0;
+			
+			for(Address ad: addresses){
+				sum +=ad.getBitcoinsActual();
+			}
+			
+			
+			DecimalFormat format=new DecimalFormat("#0.00000000");
+			String total = format.format(sum/100000000.0);
+			
+			map.put("balance", total);
+			
+			List<Transaction> transactions= transDao.getAllTransactions(user);
+			Collections.reverse(transactions);
+			map.put("transactions", transactions);
+		}
 		return "index";
 	}
 	
