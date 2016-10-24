@@ -40,6 +40,8 @@ public class Address implements Serializable{
 	
 	@Column(nullable=false, columnDefinition="int default 0")
 	int USD;
+	
+	boolean archived;
 
 	public Address()
 	{
@@ -47,8 +49,17 @@ public class Address implements Serializable{
 		this.USD=0;
 		this.primary =false;
 		this.label ="";
+		this.archived =false;
 	}
 	
+	public boolean isArchived() {
+		return archived;
+	}
+
+	public void setArchived(boolean archived) {
+		this.archived = archived;
+	}
+
 	public int getAddressId() {
 		return addressId;
 	}

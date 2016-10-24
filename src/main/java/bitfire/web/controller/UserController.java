@@ -91,7 +91,7 @@ public class UserController {
 		return "/user/address";
 	}
 	
-	@RequestMapping(value ={"/user/address.html"}, method = RequestMethod.POST)
+	@RequestMapping(value ={"/user/editaddress.html"}, method = RequestMethod.POST)
 	public String editaddress(  @ModelAttribute Address address, HttpServletRequest request, SessionStatus status )
 	{
 		System.out.println("address valu is: " + address.isPrimary());
@@ -135,7 +135,7 @@ public class UserController {
 		transaction.setReceiverUser(receiverUser);
 		transaction.setTxId("trans"+Math.random());
 		transDao.saveTransaction(transaction);
-		return "/user/send";
+		return "redirect/user/transactions.html";
 	}
 
 	@RequestMapping(value ={"/user/transactions.html"}, method = RequestMethod.GET)
@@ -152,6 +152,26 @@ public class UserController {
 		address.setWallet(SecurityUtils.getUser().getWallet());
 		addressDao.saveAddress(address);
 		return "redirect:/user/wallet.html";
+	}
+	
+	
+	@RequestMapping(value ={"/user/archiveaddress.html"}, method = RequestMethod.GET)
+	public String archiveAddress(@RequestParam int id, ModelMap map)
+	{
+		Address address = addressDao.getAddress(id);
+		if(address.isPrimary() || address.getBitcoinsActual() > 0 )
+		{
+			map.put("error", "Can't archieve primary address or address have balance");
+		}
+		else
+		{
+			address.setArchived(true);
+			addressDao.saveAddress(address);
+		}
+		map.put("addresses",addressDao.getAddresses(SecurityUtils.getUser().getWallet()) );
+
+		return "/user/wallet";
+		
 	}
 
 }
