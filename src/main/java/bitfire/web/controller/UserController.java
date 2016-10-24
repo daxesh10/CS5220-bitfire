@@ -83,7 +83,7 @@ public class UserController {
 		return "/user/wallet";
 	}
 	
-	@RequestMapping(value ={"/user/address.html"}, method = RequestMethod.GET)
+	@RequestMapping(value ={"/user/editaddress.html"}, method = RequestMethod.GET)
 	public String address(@RequestParam int id, ModelMap maps)
 	{
 		maps.put("address", addressDao.getAddress(id));
@@ -143,7 +143,7 @@ public class UserController {
 		Address address = addressDao.getAddress(id);
 		if(address.isPrimary() || address.getBitcoinsActual() > 0 )
 		{
-			map.put("error", "Can't archieve primary address or address have balance");
+			map.put("message", "Can't archieve primary address or address have balance");
 		}
 		else
 		{
