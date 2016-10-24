@@ -6,10 +6,10 @@ create table wallets(
 
 create table users(
 	user_id integer primary key,
-	email varchar(255) not null unique,
+	username varchar(255) not null unique,
 	name varchar(255),
 	password varchar(255) not null,
-	is_active boolean not null default 't',
+	enabled boolean not null default 't',
 	wallet_id varchar(255) not null references wallets(wallet_id)
 );
 
@@ -20,6 +20,7 @@ create table addresses(
 	label varchar(255),
 	USD integer not null default 0,
 	bitcoins integer not null default 0,
+	archived boolean not null default 'f',
 	wallet_id varchar(255) not null references wallets(wallet_id)
 );
 
@@ -43,14 +44,14 @@ insert into wallets(wallet_id) values ('dipesh123wallet');
 insert into wallets(wallet_id) values ('carlos123wallet');
 insert into wallets(wallet_id) values ('daxesh123wallet');
 
-insert into users(user_id, email, name, password, is_active, wallet_id) values
-(1, 'sevak@gmail.com', 'Sevak', 'Sevak123', true, 'sevak123wallet');
-insert into users(user_id, email, name, password, is_active, wallet_id) values
-(2, 'dipesh@gmail.com', 'Dipesh', 'Dipesh123', true, 'dipesh123wallet');
-insert into users(user_id, email, name, password, is_active, wallet_id) values
-(3, 'carlos@gmail.com', 'Carlos', 'Carlos123', true, 'carlos123wallet');
-insert into users(user_id, email, name, password, is_active, wallet_id) values
-(4, 'daxesh@gmail.com', 'Daxesh', 'Daxesh123', true, 'daxesh123wallet');
+insert into users(user_id, username, name, password, wallet_id) values
+(1, 'sevak@gmail.com', 'Sevak', 'Sevak123', 'sevak123wallet');
+insert into users(user_id, username, name, password, wallet_id) values
+(2, 'dipesh@gmail.com', 'Dipesh', 'Dipesh123', 'dipesh123wallet');
+insert into users(user_id, username, name, password, wallet_id) values
+(3, 'carlos@gmail.com', 'Carlos', 'Carlos123', 'carlos123wallet');
+insert into users(user_id, username, name, password, wallet_id) values
+(4, 'daxesh@gmail.com', 'Daxesh', 'Daxesh123', 'daxesh123wallet');
 
 insert into addresses(address_id, address, is_primary,label, USD, bitcoins, wallet_id) values
 (100, 'sevakAddress123', true, 'Saving', 10000, 158800 , 'sevak123wallet');
