@@ -93,7 +93,6 @@ public class UserController {
 	@RequestMapping(value ={"/user/editaddress.html"}, method = RequestMethod.POST)
 	public String editaddress(  @ModelAttribute Address address, HttpServletRequest request, SessionStatus status )
 	{
-		System.out.println("address valu is: " + address.isPrimary());
 		if(request.getParameter("primary") != null){
 			System.out.println("check box value"+ request.getParameter("primary"));
 			address.setPrimary(true);
@@ -117,7 +116,7 @@ public class UserController {
 		Address receiverAddress=addressDao.getPrimaryAddress(receiverUser.getWallet());
 		Address senderAddress=addressDao.getPrimaryAddress(SecurityUtils.getUser().getWallet());
 		tranfer(senderAddress, receiverAddress, btc);
-		return "redirect/user/transactions.html";
+		return "redirect:/user/transactions.html";
 	}
 
 	@RequestMapping(value ={"/user/transactions.html"}, method = RequestMethod.GET)
