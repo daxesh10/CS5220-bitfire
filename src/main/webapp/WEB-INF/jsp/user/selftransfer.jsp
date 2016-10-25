@@ -15,8 +15,8 @@
 </head>
 <body>
 <!-- Static navbar -->
-	<nav class="navbar navbar-default navbar-fixed-top">
-		<div class="container">
+	<nav class="navbar navbar-default navbar-fixed-top"  style="height: 70px;">
+		<div class="container"> 
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle collapsed"
 					data-toggle="collapse" data-target="#navbar" aria-expanded="false"
@@ -57,26 +57,34 @@
 	<div class = "well">
 <form class = "form"action ="<c:url value= '/user/selftransfer.html'/>" method = "post">
 FROM: 
-<select class = "dropdown" name = "from">
+<select class = "dropdown" name = "from"  style ="margin-left: 6px;">
 <c:forEach items="${addresses}" var="address">
 	<option value="${address.addressId}">${address.label} : ${address.address} : ${address.bitcoins}</option>
 </c:forEach>
 </select>
 
 </br>
-
-TO: 
-<select class = "dropdown" name = "to">
+</br>
+TO:
+<select class = "dropdown" name = "to" style = "margin-left: 24px;">
 <c:forEach items="${addresses}" var="address">
 	<option  value="${address.addressId}">${address.label} : ${address.address} : ${address.bitcoins}</option>
 </c:forEach>
 </select>
 
 </br>
-Amount
-<input type = "text" name = "amount" placeholder = "amount to tranfser" />
 </br>
 
+
+<label style = "float: left;"><strong>BTC</strong></label>
+<div class="col-xs-3" style = "margin-left: 9px;">
+
+<input type = "text" name = "amount" class="form-control input-md" placeholder = "amount of BTC to tranfser" />
+
+</div>
+</br>
+</br>
+</br>
 <input  class = "btn btn-danger" type = "submit" value ="Transfer" />
 </form>
 
