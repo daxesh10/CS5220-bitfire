@@ -60,6 +60,9 @@
 	<input class = "form-control" type ="text" name = "btc" placeholder ="amout of BTC to send"/><br>
 	<input class = "btn btn-danger btn-block" type ="submit" value = "Send" />
 </form>
+<div style="color:red">
+${error}
+</div>
 </div>
 </div>
 
