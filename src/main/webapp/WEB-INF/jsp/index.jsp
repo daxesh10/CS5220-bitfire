@@ -46,8 +46,7 @@
 			
 				<ul class="nav navbar-nav">
 					<li class="active"><a href="index.html">Profile</a></li>
-					<li><a href="<c:url value='/user/transactions.html' />">View
-							All Transactions</a></li>
+					<li><a href="<c:url value='/user/transactions.html' />">Transactions</a></li>
 					<li><a href="<c:url value='/user/send.html' />">Send
 							Bitcoin</a></li>
 					<li><a href="<c:url value='/user/wallet.html' />">Wallet</a></li>
@@ -58,7 +57,7 @@
 						</security:authorize> <security:authorize access="authenticated">
 							<a href="<c:url value='/logout' />">Logout</a>
 						</security:authorize></li>
-					<li><a href="register.html">Sign Up</a></li>
+					<li><security:authorize access="anonymous"><a href="register.html">Sign Up</a></security:authorize></li>
 				</ul>
 			</div>
 			<!--/.nav-collapse -->
@@ -67,7 +66,7 @@
 	<security:authorize access="authenticated">
 		<div class="jumbotron">
 			<div class="container">
-				<h3>Welcome, ${user.name }!</h3>
+				<h1>Welcome, ${user.name }!</h1>
 			</div>
 		</div>
 
@@ -86,7 +85,7 @@
 							</div>
 
 							<div class="panel-body">
-								<p>Balance: ${balance}</p>
+								<p><strong>Balance:</strong> ${balance} BTC</p>
 
 								<ul style="list-style: none;">
 									<a href="<c:url value='/user/send.html' />">Send Bitcoin</a>
@@ -133,7 +132,7 @@
 									<div class="panel panel-default">
 										<div class="panel-heading trans" role="tab"
 											id="heading${i.index}">
-											<h4 class="panel-title">
+											<h4 class="panel-title title">
 												<c:if test="${i.index == 1 }">
 													<a role="button" data-toggle="collapse"
 														data-parent="#accordion" href="#collapse${i.index}"
@@ -239,13 +238,13 @@
 											aria-labelledby="heading${i.index}">
 											<div class="panel-body">
 												<div class="row">
-													<div class="col-md-2">${trans.senderUser.username}</div>
-													<div class="col-md-2">
+													<div class="col-md-3">${trans.senderUser.username}</div>
+													<div class="col-md-1">
 														<a href="https://blockchain.info/tx/${trans.txId }">TX</a>
 													</div>
-													<div class="col-md-2">${trans.bitcoin }</div>
+													<div class="col-md-3">${trans.bitcoin } BTC</div>
 													<div class="col-md-2">${trans.USD}</div>
-													<div class="col-md-2">Confirmations ${trans.confirmations }</div>
+													<div class="col-md-3"><strong>Confirmations:</strong> ${trans.confirmations }</div>
 												</div>
 											</div>
 										</div>
