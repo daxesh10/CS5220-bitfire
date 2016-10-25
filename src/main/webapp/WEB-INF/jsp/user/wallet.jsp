@@ -39,9 +39,8 @@
 			</div>
 			<div id="navbar" class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
-					<li><a href="<c:url value='/index.html' />">Profile</a></li>
-					<li><a href="<c:url value='/user/transactions.html' />">View
-							All Transactions</a></li>
+					<li><a href="<c:url value='../index.html' />">Profile</a></li>
+					<li><a href="<c:url value='/user/transactions.html' />">Transactions</a></li>
 					<li><a href="<c:url value='/user/send.html' />">Send
 							Bitcoin</a></li>
 					<li class="active"><a href="<c:url value='/user/wallet.html' />">Wallet</a></li>
