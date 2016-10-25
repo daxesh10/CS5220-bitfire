@@ -42,12 +42,14 @@
 				</a>
 			</div>
 			<div id="navbar" class="navbar-collapse collapse">
+				<security:authorize access="authenticated">
+			
 				<ul class="nav navbar-nav">
 					<li class="active"><a href="index.html">Profile</a></li>
 					<li><a href="<c:url value='/user/transactions.html' />">View All Transactions</a></li>
 					<li><a href="<c:url value='/user/send.html' />">Send Bitcoin</a></li>
 					<li><a href="<c:url value='/user/wallet.html' />">Wallet</a></li>
-				</ul>
+				</ul></security:authorize>
 				<ul class="nav navbar-nav navbar-right">
 					<li><security:authorize access="anonymous">
 							<a href="<c:url value='/login.html' />">Login</a>
