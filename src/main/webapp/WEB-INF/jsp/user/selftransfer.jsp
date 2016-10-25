@@ -72,8 +72,8 @@ TO:
 </c:forEach>
 </select>
 
-</br>
-</br>
+<br />
+<br />
 
 
 <label style = "float: left;"><strong>BTC</strong></label>
@@ -82,13 +82,13 @@ TO:
 <input type = "text" name = "amount" class="form-control input-md" placeholder = "amount of BTC to tranfser" />
 
 </div>
-</br>
-</br>
-</br>
+<br />
+<br />
+<br />
 <input  class = "btn btn-danger" type = "submit" value ="Transfer" />
 </form>
 
-<p>${error}</p>
+<div style="color: red">${message}</div>
 </div>
 </div>
 </body>
