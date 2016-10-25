@@ -30,7 +30,7 @@
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="#">
+				<a class="navbar-brand" href="<c:url value ='/index.html'/>">
 					<div class="logo text-center">
 						<img src="assets/img/fire.png" alt=""
 							style="width: 50px; height: 50px;">
@@ -46,149 +46,221 @@
 			
 				<ul class="nav navbar-nav">
 					<li class="active"><a href="index.html">Profile</a></li>
-					<li><a href="<c:url value='/user/transactions.html' />">View All Transactions</a></li>
-					<li><a href="<c:url value='/user/send.html' />">Send Bitcoin</a></li>
+					<li><a href="<c:url value='/user/transactions.html' />">View
+							All Transactions</a></li>
+					<li><a href="<c:url value='/user/send.html' />">Send
+							Bitcoin</a></li>
 					<li><a href="<c:url value='/user/wallet.html' />">Wallet</a></li>
 				</ul></security:authorize>
 				<ul class="nav navbar-nav navbar-right">
 					<li><security:authorize access="anonymous">
 							<a href="<c:url value='/login.html' />">Login</a>
-						</security:authorize>
-						 <security:authorize access="authenticated">
-						 	    <a href="<c:url value='/logout' />">Logout</a>
-						 </security:authorize>
-					</li>
-					<li>
-						<a href = "register.html">Sign Up</a>
-					</li>
+						</security:authorize> <security:authorize access="authenticated">
+							<a href="<c:url value='/logout' />">Logout</a>
+						</security:authorize></li>
+					<li><a href="register.html">Sign Up</a></li>
 				</ul>
 			</div>
 			<!--/.nav-collapse -->
 		</div>
 	</nav>
 	<security:authorize access="authenticated">
-	<div class="jumbotron">
-		<div class="container">
-			<h3>Welcome, ${user.name }!</h3>
+		<div class="jumbotron">
+			<div class="container">
+				<h3>Welcome, ${user.name }!</h3>
+			</div>
 		</div>
-	</div>
 
-	<div class="container wrapper">
-		<div class="page-header text-center web-font">
-			<h2>Account Summary</h2>
-		</div>
-		<div class="row">
-			<div class="col-md-4">
-				<div class="panel-group">
-					<div class="panel panel-default">
-						<div class="panel-heading">
-							<a href="#">BitFire Balance <span
-								class="glyphicon glyphicon-chevron-right pull-right"
-								aria-hidden="true"></span></a>
+		<div class="container wrapper">
+			<div class="page-header text-center web-font">
+				<h2>Account Summary</h2>
+			</div>
+			<div class="row">
+				<div class="col-md-4">
+					<div class="panel-group">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<a href="#">BitFire Balance <span
+									class="glyphicon glyphicon-chevron-right pull-right"
+									aria-hidden="true"></span></a>
+							</div>
+
+							<div class="panel-body">
+								<p>Balance: ${balance}</p>
+
+								<ul style="list-style: none;">
+									<a href="<c:url value='/user/send.html' />">Send Bitcoin</a>
+								</ul>
+							</div>
 						</div>
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<a href="#">Addresses <span
+									class="glyphicon glyphicon-chevron-right pull-right"
+									aria-hidden="true"></span></a>
+							</div>
 
-						<div class="panel-body">
-							<p>Balance: Goes here</p>
+							<div class="panel-body">
+							
+							<c:forEach items = "${addresses}" var = "address">
+								<div class="row">
+									<div class="col-md-5">
+										<p>
+											<strong></>${address.label}</strong>
+										</p>
+									</div>
+									<div class="col-md-7">
+										<p>${address.address}</p>
+									</div>
+								</div>
+							</c:forEach>
+							</div>
 
-							<ul style="list-style: none;">
-								<a href="<c:url value='/user/send.html' />">Send Bitcoin</a>
-							</ul>
+							<div class="panel-footer text-center">
+								<a href="<c:url value='/user/wallet.html' />">Manage Wallet</a>
+							</div>
 						</div>
 					</div>
+				</div>
+				<div class="col-md-8">
 					<div class="panel panel-default">
-						<div class="panel-heading">
-							<a href="#">Addresses <span
-								class="glyphicon glyphicon-chevron-right pull-right"
-								aria-hidden="true"></span></a>
-						</div>
+						<div class="panel-heading trans-panel">Transactions</div>
 
-						<div class="panel-body">
-							<div class="row">
-								<div class="col-md-5">
-									<p>
-										<strong></>Label of Address 1</strong>
-									</p>
-								</div>
-								<div class="col-md-7">
-									<p>Address 1</p>
+						<c:forEach items="${transactions }" var="trans" varStatus="i">
+							<div class="panel-body">
+								<div class="panel-group" id="accordion" role="tablist"
+									aria-multiselectable="true">
+									<div class="panel panel-default">
+										<div class="panel-heading trans" role="tab"
+											id="heading${i.index}">
+											<h4 class="panel-title">
+												<c:if test="${i.index == 1 }">
+													<a role="button" data-toggle="collapse"
+														data-parent="#accordion" href="#collapse${i.index}"
+														aria-expanded="true" aria-controls="collapse${i.index}">
+														<div class="row">
+															<div class="col-md-4">${trans.date }</div>
+															<div class="col-md-5">
+																<c:if
+																	test="${ trans.senderUser.userId eq trans.receiverUser.userId}">
+																	<td>Self transfer</td>
+																</c:if>
+
+																<c:if
+																	test="${ trans.senderUser.userId ne trans.receiverUser.userId}">
+																	<c:if test="${user.userId eq trans.senderUser.userId}">
+																		<td>Sent</td>
+																	</c:if>
+																	<c:if
+																		test="${ user.userId eq trans.receiverUser.userId}">
+																		<td>Received</td>
+																	</c:if>
+																</c:if>
+															</div>
+															<div class="col-md-3">
+																<c:if
+																	test="${ trans.senderUser.userId eq trans.receiverUser.userId}">
+																	<td><span class="glyphicon glyphicon-plus"
+																		style="color: #3ea134" aria-hidden="true"></span>
+																		${trans.bitcoin}</td>
+																</c:if>
+
+																<c:if
+																	test="${ trans.senderUser.userId ne trans.receiverUser.userId}">
+																	<c:if test="${user.userId eq trans.senderUser.userId}">
+																		<td><span class="glyphicon glyphicon-minus"
+																			style="color: #ff0000" aria-hidden="true"></span>
+																			${trans.bitcoin}</td>
+																	</c:if>
+																	<c:if
+																		test="${ user.userId eq trans.receiverUser.userId}">
+																		<td><span class="glyphicon glyphicon-plus"
+																			style="color: #3ea134" aria-hidden="true"></span>
+																			${trans.bitcoin}</td>
+																	</c:if>
+																</c:if>
+															</div>
+														</div>
+													</a>
+												</c:if>
+												<c:if test="${i.index != 1 }">
+													<a role="button" data-toggle="collapse"
+														data-parent="#accordion" href="#collapse${i.index}"
+														aria-expanded="false" aria-controls="collapse${i.index}">
+														<div class="row">
+															<div class="col-md-4">${trans.date }</div>
+															<div class="col-md-5">
+																<c:if
+																	test="${ trans.senderUser.userId eq trans.receiverUser.userId}">
+																	<td>Self transfer</td>
+																</c:if>
+
+																<c:if
+																	test="${ trans.senderUser.userId ne trans.receiverUser.userId}">
+																	<c:if test="${user.userId eq trans.senderUser.userId}">
+																		<td>Sent</td>
+																	</c:if>
+																	<c:if
+																		test="${ user.userId eq trans.receiverUser.userId}">
+																		<td>Received</td>
+																	</c:if>
+																</c:if>
+															</div>
+															<div class="col-md-3">
+																<c:if
+																	test="${ trans.senderUser.userId eq trans.receiverUser.userId}">
+																	<td><span class="glyphicon glyphicon-plus"
+																		style="color: #3ea134" aria-hidden="true"></span>
+																		${trans.bitcoin}</td>
+																</c:if>
+
+																<c:if
+																	test="${ trans.senderUser.userId ne trans.receiverUser.userId}">
+																	<c:if test="${user.userId eq trans.senderUser.userId}">
+																		<td><span class="glyphicon glyphicon-minus"
+																			style="color: #ff0000" aria-hidden="true"></span>
+																			${trans.bitcoin}</td>
+																	</c:if>
+																	<c:if
+																		test="${ user.userId eq trans.receiverUser.userId}">
+																		<td><span class="glyphicon glyphicon-plus"
+																			style="color: #3ea134" aria-hidden="true"></span>
+																			${trans.bitcoin}</td>
+																	</c:if>
+																</c:if>
+															</div>
+														</div>
+													</a>
+												</c:if>
+											</h4>
+										</div>
+										<div id="collapse${i.index}"
+											class="panel-collapse collapse in" role="tabpanel"
+											aria-labelledby="heading${i.index}">
+											<div class="panel-body">
+												<div class="row">
+													<div class="col-md-2">${trans.senderUser.username}</div>
+													<div class="col-md-2">
+														<a href="https://blockchain.info/tx/${trans.txId }">TX</a>
+													</div>
+													<div class="col-md-2">${trans.bitcoin }</div>
+													<div class="col-md-2">${trans.USD}</div>
+													<div class="col-md-2">Confirmations ${trans.confirmations }</div>
+												</div>
+											</div>
+										</div>
+									</div>
 								</div>
 							</div>
-							<div class="row">
-								<div class="col-md-5">
-									<p>
-										<strong>Label of Address 2</strong>
-									</p>
-								</div>
-								<div class="col-md-7">
-									<p>Address 2</p>
-								</div>
-							</div>
-						</div>
-
+						</c:forEach>
 						<div class="panel-footer text-center">
-							 <a href="<c:url value='/user/wallet.html' />">Manage Wallet</a>						
+							<a href="<c:url value='/user/transactions.html' />">View All
+								Transactions</a>
 						</div>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-8">
-				<div class="panel panel-default">
-					<div class="panel-heading trans-panel">Transactions</div>
-
-					<div class="panel-body">
-						<div class="panel-group" id="accordion" role="tablist"
-							aria-multiselectable="true">
-							<div class="panel panel-default">
-								<div class="panel-heading trans" role="tab" id="headingOne">
-									<h4 class="panel-title">
-										<a role="button" data-toggle="collapse"
-											data-parent="#accordion" href="#collapseOne"
-											aria-expanded="true" aria-controls="collapseOne">
-											Transaction 1</a>
-									</h4>
-								</div>
-								<div id="collapseOne" class="panel-collapse collapse in"
-									role="tabpanel" aria-labelledby="headingOne">
-									<div class="panel-body">Transaction details go here</div>
-								</div>
-							</div>
-							<div class="panel panel-default">
-								<div class="panel-heading trans" role="tab" id="headingTwo">
-									<h4 class="panel-title">
-										<a class="collapsed" role="button" data-toggle="collapse"
-											data-parent="#accordion" href="#collapseTwo"
-											aria-expanded="false" aria-controls="collapseTwo">
-											Transaction 2 </a>
-									</h4>
-								</div>
-								<div id="collapseTwo" class="panel-collapse collapse"
-									role="tabpanel" aria-labelledby="headingTwo">
-									<div class="panel-body">Transaction details go here</div>
-								</div>
-							</div>
-							<div class="panel panel-default">
-								<div class="panel-heading trans" role="tab" id="headingThree">
-									<h4 class="panel-title">
-										<a class="collapsed" role="button" data-toggle="collapse"
-											data-parent="#accordion" href="#collapseThree"
-											aria-expanded="false" aria-controls="collapseThree">
-											Transaction 3 </a>
-									</h4>
-								</div>
-								<div id="collapseThree" class="panel-collapse collapse"
-									role="tabpanel" aria-labelledby="headingThree">
-									<div class="panel-body">Transaction details go here</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="panel-footer text-center">
-						<a href="<c:url value='/user/transactions.html' />">View All Transactions</a>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
 	</security:authorize>
 
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

@@ -26,7 +26,7 @@
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="#">
+				<a class="navbar-brand" href="<c:url value ='/index.html'/>">
 					<div class="logo text-center">
 						<img src="../assets/img/fire.png" alt=""
 							style="width: 50px; height: 50px;">
@@ -39,7 +39,7 @@
 			</div>
 			<div id="navbar" class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
-					<li><a href="/index.html">Profile</a></li>
+					<li><a href="<c:url value='/index.html' />">Profile</a></li>
 					<li><a href="<c:url value='/user/transactions.html' />">View
 							All Transactions</a></li>
 					<li><a href="<c:url value='/user/send.html' />">Send

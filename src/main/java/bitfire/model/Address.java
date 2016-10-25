@@ -48,7 +48,7 @@ public class Address implements Serializable{
 		this.bitcoins=0;
 		this.USD=0;
 		this.primary =false;
-		this.label ="";
+		this.label ="Label";
 		this.archived =false;
 	}
 	
