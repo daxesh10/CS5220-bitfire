@@ -1,0 +1,147 @@
+@CHARSET "UTF-8";
+
+*{
+	font-family: 'Rokkitt', serif;
+}
+
+html, body {
+	background: url("../assets/img/bitcoin.jpg") no-repeat center center fixed;
+	background-size: cover;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+body{
+	padding-top: 60px;
+}
+
+h1{
+	font-size: 300%;
+}
+
+.logo > img,
+.logo > h2 {
+    display: inline-block;
+    margin: 0;
+}
+
+.well{
+	max-width: 400px;
+	min-width: 300px;
+	margin: 0 auto;
+	background: rgba(47,79,79,.95);
+	border: 2px solid #cc6633;
+}
+
+.web-font{
+	font-family: 'Exo 2', sans-serif;
+}
+
+.ignite{
+	color: rgb(255,0,0);
+}
+
+.white{
+	color: rgb(255,255,255);
+}
+
+
+.navbar-default{
+	background: rgba(47,79,79,.7);
+	border: none;
+	box-shadow: 0 4px 10px 4px #000000;
+	margin: 0;
+	
+}
+
+.nav.navbar-nav.navbar-right li a,
+#navbar li a{
+    color: rgb(255,255,255);
+    font-size: 120%;
+}	
+
+.active a{
+	background: none !important;
+	border-bottom: 4px solid #cc6633;
+	border-right: 1px solid #cc6633;
+	border-radius: 0 0 20px 0;
+	color: rgb(255,255,255);
+}
+
+.jumbotron{
+	background: rgba(42,71,77,1);
+	color: rgb(211,211,211);
+	margin:0;
+}
+
+.wrapper{
+	min-height: 100%;
+	width: 100%;
+	background: rgba(230,230,230,1);
+	padding: 2% 10%;
+	border-top: 15px double #2A474D
+}
+
+.panel-default > .panel-heading {
+  color: #333;
+  background: rgb(255,255,255);
+  border-bottom: 4px solid #cc6633;
+  border-right: 1px solid #cc6633;
+  border-radius: 0 0 0 20px;
+  font-weight: bolder;
+  font-size: 140%;
+  
+}
+
+.panel-default > .panel-body {
+  font-size: 120%;
+  
+}
+
+.panel-default > .panel-heading a:link,
+.panel-default > .panel-heading a:hover,
+.panel-default > .panel-heading a:active,
+.panel-default > .panel-heading a:visited{
+  color: #000000;
+  text-decoration: none;
+}
+
+.panel-default > .panel-footer {
+  font-size: 120%;
+  
+}
+
+.panel-default > .trans-panel {
+  border-radius: 0 0 20px 0;
+}
+
+.page-header{
+	border-bottom: 3px solid #B2B2B2;
+	margin-top: 5px;
+}
+
+.addresses{
+	list-style: none;
+}
+
+.panel-default > .trans{
+  color: #333;
+  background: #c0c0c0;
+  border:none;
+  border-radius: 0 0 0 0;
+  
+}
+
+.panel-default > .trans .title{
+  font-size: 80%;
+  font-weight: bolder;
+  
+}
+
+.panel-default > .trans:hover{
+	border-left: 2px solid #2A474D;
+}

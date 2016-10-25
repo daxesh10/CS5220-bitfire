@@ -1,41 +1,39 @@
 package bitfire.model;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Set;
 
-import javax.persistence.*;
-
-
-
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 
 @Entity
 @Table(name="wallets")
 public class Wallet implements Serializable{
 
+	private static final long serialVersionUID = 1L;
+
 	@Id
-	@GeneratedValue
-	@Column(name="user_id", nullable=false)
-	int walletId;
+	@Column(name="wallet_id")
+	String walletId;
 	
-	@OneToOne
-	@JoinColumns({@JoinColumn(name="user_id",referencedColumnName="user_id")
-	,@JoinColumn(name="email",referencedColumnName="email")})		
+	@OneToOne(mappedBy="wallet")
+	@JoinColumn(name="user_id")
 	User user;
 
-	@OneToMany(fetch=FetchType.LAZY)	
-	List<Address> address;
-
+	@OneToMany(mappedBy="wallet")
+	Set<Address> address;
 	
-	
-	
-	
-	
-	public int getWalletId() {
+	public String getWalletId() {
 		return walletId;
 	}
 
-	public void setWalletId(int walletId) {
+	public void setWalletId(String walletId) {
 		this.walletId = walletId;
 	}
 
@@ -47,16 +45,14 @@ public class Wallet implements Serializable{
 		this.user = user;
 	}
 
-	public List<Address> getAddress() {
+	public Set<Address> getAddress() {
 		return address;
 	}
 
-	public void setAddress(List<Address> address) {
+	public void setAddress(Set<Address> address) {
 		this.address = address;
 	}
-	
-	
-	
+
 	
 	
 }

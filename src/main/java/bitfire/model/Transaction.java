@@ -1,10 +1,15 @@
 package bitfire.model;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -14,7 +19,7 @@ public class Transaction implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
-	@Column(unique=true)
+	@Column(unique=true,name="tx_id")
 	String txId;
 	
 	@Id
@@ -22,17 +27,27 @@ public class Transaction implements Serializable{
 	@Column(name="transaction_id")
 	int transactionId;
 	
-	double USD;
-	
-	double bitcoin;
+	@OneToOne
+	@JoinColumn(name="sender_address_id")
+	Address senderAddress;
 	
 	@OneToOne
-	@Column(name="sender_address")
-	Address sender;
+	@JoinColumn(name="receiver_address_id")
+	Address receiverAddress;
 	
 	@OneToOne
-	@Column(name="receiver_address")
-	Address receiver;
+	@JoinColumn(name="sender_user_id")
+	User senderUser;
+	
+	@OneToOne
+	@JoinColumn(name="receiver_user_id")
+	User receiverUser;
+	
+	int USD;
+	
+	int bitcoin;
+	
+	int confirmations;
 	
 	@Column(name="notified_sender")
 	Boolean notifiedSender;
@@ -40,6 +55,33 @@ public class Transaction implements Serializable{
 	@Column(name="notified_receiver")
 	Boolean notifiedReceiver;
 
+	@Column(name="trans_date")
+	Date date;
+	
+	public Transaction()
+	{
+		date=new Date();
+		confirmations=0;
+		notifiedReceiver=true;
+		notifiedSender=true;
+	}
+	
+	public int getConfirmations() {
+		return confirmations;
+	}
+
+	public void setConfirmations(int confirmations) {
+		this.confirmations = confirmations;
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+	
 	public String getTxId() {
 		return txId;
 	}
@@ -56,36 +98,39 @@ public class Transaction implements Serializable{
 		this.transactionId = transactionId;
 	}
 
-	public double getUSD() {
-		return USD;
+	public String getUSD() {
+		
+		return NumberFormat.getCurrencyInstance().format(USD/100.0);
 	}
 
-	public void setUSD(double uSD) {
+	public void setUSD(int uSD) {
 		USD = uSD;
 	}
 
-	public double getBitcoin() {
-		return bitcoin;
+	public String getBitcoin() {
+		
+		DecimalFormat format=new DecimalFormat("#0.00000000");
+		return format.format(bitcoin/100000000.0);
 	}
 
-	public void setBitcoin(double bitcoin) {
+	public void setBitcoin(int bitcoin) {
 		this.bitcoin = bitcoin;
 	}
 
-	public Address getSender() {
-		return sender;
+	public Address getSenderAddress() {
+		return senderAddress;
 	}
 
-	public void setSender(Address sender) {
-		this.sender = sender;
+	public void setSenderAddress(Address senderAddress) {
+		this.senderAddress = senderAddress;
 	}
 
-	public Address getReceiver() {
-		return receiver;
+	public Address getReceiverAddress() {
+		return receiverAddress;
 	}
 
-	public void setReceiver(Address receiver) {
-		this.receiver = receiver;
+	public void setReceiverAddress(Address receiverAddress) {
+		this.receiverAddress = receiverAddress;
 	}
 
 	public Boolean getNotifiedSender() {
@@ -103,5 +148,21 @@ public class Transaction implements Serializable{
 	public void setNotifiedReceiver(Boolean notifiedReceiver) {
 		this.notifiedReceiver = notifiedReceiver;
 	}
-	
+
+	public User getSenderUser() {
+		return senderUser;
+	}
+
+	public void setSenderUser(User senderUser) {
+		this.senderUser = senderUser;
+	}
+
+	public User getReceiverUser() {
+		return receiverUser;
+	}
+
+	public void setReceiverUser(User receiverUser) {
+		this.receiverUser = receiverUser;
+	}
+
 }
